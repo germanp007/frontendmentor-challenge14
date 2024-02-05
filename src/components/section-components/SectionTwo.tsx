@@ -1,6 +1,6 @@
 import React from "react";
-import ButtonComponent from "./ButtonComponent";
-import IconSuccess from "./IconSuccess";
+import ButtonComponent from "../button-component/ButtonComponent";
+import IconSuccess from "../icons-components/IconSuccess";
 import { useNavigate } from "react-router-dom";
 
 type SectionProps = {

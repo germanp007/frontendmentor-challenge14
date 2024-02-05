@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import SectionOne from "./components/SectionOne";
-import SectionTwo from "./components/SectionTwo";
-import Loader from "./components/Loader";
+import SectionOne from "./components/section-components/SectionOne";
+import SectionTwo from "./components/section-components/SectionTwo";
+import Loader from "./components/loader-component/Loader";
 
 const App = () => {
   const [widthScreen, setWidthScreen] = useState(window.innerWidth);

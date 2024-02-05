@@ -1,8 +1,8 @@
 import React from "react";
-import IconList from "./IconList";
-import SignupMobile from "./SignupMobile";
-import SingupDesktop from "./SignupDesktop";
-import ButtonComponent from "./ButtonComponent";
+import IconList from "../icons-components/IconList";
+import SignupMobile from "../svg-components/SignupMobile";
+import SingupDesktop from "../svg-components/SignupDesktop";
+import ButtonComponent from "../button-component/ButtonComponent";
 import { useNavigate } from "react-router-dom";
 
 type SectionProps = {
