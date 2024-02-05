@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import SectionOne from "./components/SectionOne";
-import {
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  useNavigation,
-} from "react-router-dom";
 import SectionTwo from "./components/SectionTwo";
-// import SectionTwo from "./components/SectionTwo";
-//import Loader from "./components/Loader";
+import Loader from "./components/Loader";
 
 const App = () => {
   const [widthScreen, setWidthScreen] = useState(window.innerWidth);
   const [email, setEmail] = useState<string>("");
   const [validation, setValidation] = useState(false);
-  const navigate = useNavigation();
-  const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
+  const [loading, setLoading] = useState(false);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
@@ -28,15 +17,6 @@ const App = () => {
     }
 
     setEmail(inputValue);
-  };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (validateEmail()) {
-      navigate("/thank-you");
-    } else {
-      setValidation(true);
-    }
   };
 
   useEffect(() => {
@@ -51,26 +31,30 @@ const App = () => {
     };
   }, []);
   return (
-    <main className="bg-CharcoalGrey flex justify-center items-center min-h-screen ">
-      {/* <main className="bg-CharcoalGrey min-h-screen flex justify-center items-center"> */}
-      {/* <Loader /> */}
-      <Router>
+    <Router>
+      <main className="bg-CharcoalGrey flex justify-center items-center min-h-screen ">
+        {loading && <Loader />}
         <Routes>
           <Route
             path="/"
             element={
               <SectionOne
-                handleSubmit={handleSubmit}
+                email={email}
                 validation={validation}
+                setValidation={setValidation}
                 widthScreen={widthScreen}
                 handleInputChange={handleInputChange}
+                setLoading={setLoading}
               />
             }
           />
-          <Route path="/thank-you" element={<SectionTwo email={email} />} />
+          <Route
+            path="/thank-you"
+            element={<SectionTwo email={email} setLoading={setLoading} />}
+          />
         </Routes>
-      </Router>
-    </main>
+      </main>
+    </Router>
   );
 };
 

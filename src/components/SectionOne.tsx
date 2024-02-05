@@ -3,17 +3,22 @@ import IconList from "./IconList";
 import SignupMobile from "./SignupMobile";
 import SingupDesktop from "./SignupDesktop";
 import ButtonComponent from "./ButtonComponent";
+import { useNavigate } from "react-router-dom";
 
 type SectionProps = {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  email: string;
   validation: boolean;
+  setValidation: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   widthScreen: number;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const SectionOne: React.FC<SectionProps> = ({
-  handleSubmit,
+  email,
   validation,
+  setValidation,
+  setLoading,
   widthScreen,
   handleInputChange,
 }) => {
@@ -22,6 +27,29 @@ const SectionOne: React.FC<SectionProps> = ({
     "Measuring to ensure updates are a success",
     " And much more!",
   ];
+  const navigate = useNavigate();
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      if (validateEmail()) {
+        setLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        navigate("/thank-you");
+        setLoading(false);
+      } else {
+        setValidation(true);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setValidation(true);
+    }
+  };
 
   return (
     <section className="flex flex-col gap-8 w-[375px] pb-8 bg-white lg:w-[950px] lg:flex-row-reverse lg:h-[650px] lg:rounded-3xl lg:items-center lg:pb-0">

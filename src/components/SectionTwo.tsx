@@ -1,12 +1,27 @@
 import React from "react";
 import ButtonComponent from "./ButtonComponent";
 import IconSuccess from "./IconSuccess";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type SectionProps = {
   email: string;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const SectionTwo: React.FC<SectionProps> = ({ email }) => {
+const SectionTwo: React.FC<SectionProps> = ({ email, setLoading }) => {
+  const navigate = useNavigate();
+
+  const handleHome = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      navigate("/");
+      setLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <section className="bg-white w-[375px] h-[100vh] flex flex-col justify-evenly p-6 md:w-[450px] md:h-[430px] md:rounded-3xl md:p-10">
       <article className="text-DarkSlateGrey h-full flex flex-col justify-between md:h-[400px] md:justify-between">
@@ -20,9 +35,9 @@ const SectionTwo: React.FC<SectionProps> = ({ email }) => {
           </p>
         </div>
         <div>
-          <Link to="/">
+          <form onSubmit={handleHome}>
             <ButtonComponent>Dismiss message</ButtonComponent>
-          </Link>
+          </form>
         </div>
       </article>
     </section>
